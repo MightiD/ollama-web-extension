@@ -1,0 +1,10 @@
+{
+    "version": "1.0.0",
+    "manifest_version": 3,
+    "name": "Ollama Web Extension",
+    "description": "An extension to make it easier to use local LLM's installed on Ollama from your browser",
+    "action": {
+        "default_popup": "index.html",
+        "default_title": "Ollama Web Extension"
+    }
+}
