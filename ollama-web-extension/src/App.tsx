@@ -1,3 +1,5 @@
+import ModelList from "./assets/modelList"
+
 function App() {
   return (
     <div className='w-[400px] h-[500px] bg-black'>
@@ -6,6 +8,9 @@ function App() {
           Ollama Web Extension
         </p>
       </div>
+
+    <ModelList/>
+
     </div>
   )
 }
