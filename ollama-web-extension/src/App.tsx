@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { z } from 'zod';
 
 import ModelList from "./assets/modelList"
+import LlmChat from "./assets/llmChat";
 
 const retData = z.object({
     models: z.array(
@@ -61,6 +62,7 @@ function App() {
       </div>
 
     <ModelList currentModel={currentModel} models={models} handleList={setCurrentModel}/>
+    <LlmChat/>
 
     </div>
   )

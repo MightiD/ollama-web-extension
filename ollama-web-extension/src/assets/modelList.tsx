@@ -6,15 +6,13 @@ type ModelListProps = {
 
 function ModelList({models, currentModel, handleList}: ModelListProps) {
     return (
-        <>
-            <select className="w-[200px] h-[20px]" value={currentModel} onChange={e => {
-                handleList(e.target.value);
-            }}>
-                {models.map((model) => (
-                    <option className="text-black" value={model} label={model}></option>
-                ))}
-            </select>
-        </>
+        <select className="w-[200px] h-[20px] p-10px" value={currentModel} onChange={e => {
+            handleList(e.target.value);
+        }}>
+            {models.map((model) => (
+                <option className="text-black" value={model} label={model}></option>
+            ))}
+        </select>
     )
 }
 
