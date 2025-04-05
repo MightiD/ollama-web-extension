@@ -27,7 +27,6 @@ type retData = z.infer<typeof retData>
 
 
 function App() {
-  const [data, setData] = useState<retData>() //return data from fetch
   const [models] = useState<string[]>([]) //list of all models
   const [currentModel, setCurrentModel] = useState("") //currently selected model
 
@@ -42,18 +41,13 @@ function App() {
               console.error(validRes.error);
               return;
           }
-          setData(validRes.data);
+          const parsedData = validRes.data;
 
-          console.log(data)
-
-          data?.models.map((model) => {
+          parsedData?.models.map((model) => {
             models.push(model.name)
           })
 
           setCurrentModel(validRes.data.models[0].name)
-
-          console.log(models)
-          console.log(currentModel)
       })
 
   }, [])
