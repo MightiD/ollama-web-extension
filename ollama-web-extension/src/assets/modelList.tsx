@@ -1,57 +1,17 @@
-import { useState, useEffect } from "react";
-import { z } from 'zod';
+type ModelListProps = {
+    models: string[];
+    currentModel: string;
+    handleList: (value: string) => void;
+};
 
-const retData = z.object({
-    models: z.array(
-        z.object({
-            name: z.string(),
-            model: z.string(),
-            modified_at: z.string(),
-            size: z.number(),
-            digest: z.string(),
-            details: z.object({
-                parent_model: z.string(),
-                format: z.string(),
-                family: z.string(),
-                families: z.array(z.string()),
-                parameter_size: z.string(),
-                quantization_level: z.string()
-            })
-        })
-    )
-})
-
-type retData = z.infer<typeof retData>
-
-function ModelList() {
-    const [model, setModel] = useState("")
-    const [data, setData] = useState<retData>()
-    // const [models, setModels] = useState([])
-
-    useEffect(() => {
-        fetch('http://localhost:11434/api/tags', {
-            method: 'GET'
-        })
-        .then(res => res.json())
-        .then((res: retData) => {
-            const validRes = retData.safeParse(res)
-            if (!validRes.success) {
-                console.error(validRes.error);
-                return;
-            }
-            setData(validRes.data);
-            setModel(validRes.data.models[0].name)
-        })
-
-    }, [])
-
+function ModelList({models, currentModel, handleList}: ModelListProps) {
     return (
         <>
-            <select className="w-[200px] h-[20px]" value={model} onChange={e => {
-                setModel(e.target.value);
+            <select className="w-[200px] h-[20px]" value={currentModel} onChange={e => {
+                handleList(e.target.value);
             }}>
-                {data?.models.map((model) => (
-                    <option className="text-black" value={model.name} label={model.name}></option>
+                {models.map((model) => (
+                    <option className="text-black" value={model} label={model}></option>
                 ))}
             </select>
         </>
