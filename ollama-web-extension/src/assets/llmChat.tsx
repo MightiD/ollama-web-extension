@@ -11,17 +11,22 @@ function LlmChat() {
         console.log("E")
     }, [input])
 
+    const handleSubmit = () => {
+        alert(input);
+    }
 
 
     return (
-        <div className="flex justify-center items-center inset-x-0 bottom-0 h-4/5">
+        <div className="flex justify-center items-center inset-x-0 bottom-0 h-4/5 text-white">
             <MessageReturn/>
 
-            <input className="inset-x-0 bottom-0" onChange={e => {
-                setInput((e.target as HTMLInputElement).value);
-            }}>
-            
-            </input>
+            <form onSubmit={handleSubmit}>
+                <label>
+                    Enter your message:
+                    <input className="text-black" type='text' value={input} onChange={(e) => setInput(e.target.value)} />
+                </label>
+                <input type='submit' />
+            </form>
         </div>
     )
 }
