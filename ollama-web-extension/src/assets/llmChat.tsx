@@ -1,34 +1,51 @@
-import { useState, useEffect } from "react"
+// import { useState, useEffect } from "react"
+// import ollama  from "ollama/browser"
 
-import MessageReturn from "./messageReturn"
+// type props = {
+//     model: string;
+// }
+// {model}: props
 
 
 function LlmChat() {
 
-    const [input, setInput] = useState('')
+    // const [input, setInput] = useState('')
+    // const [response, setResponse] = useState('')
 
-    useEffect(() => {
-        console.log("E")
-    }, [input])
+    function getUserInput(formData: React.FormEvent<HTMLFormElement>) {
+        //gets the user input
+        formData.preventDefault();
+        const query = new FormData(formData.currentTarget)
 
-    const handleSubmit = () => {
-        alert(input);
+        console.log(query)
     }
 
+//https://stackoverflow.com/questions/77276369/how-to-access-form-data-in-a-post-request-when-using-react-typescript
 
     return (
         <div className="flex justify-center items-center inset-x-0 bottom-0 h-4/5 text-white">
-            <MessageReturn/>
+            <p className="text-white">
+                E
+            </p>
 
-            <form onSubmit={handleSubmit}>
-                <label>
-                    Enter your message:
-                    <input className="text-black" type='text' value={input} onChange={(e) => setInput(e.target.value)} />
-                </label>
-                <input type='submit' />
+            <form onSubmit={getUserInput}>
+                <input className="text-black" name='chatInput' type='text' id='chatInput' />
+                <button type='submit'/>
             </form>
         </div>
     )
 }
 
 export default LlmChat
+
+/*
+
+HOW TO MAKE CODE WORK
+
+1. wait for user to submit the form
+2. Get user input, store in input variable using setInput()
+3. then, make an api call to ollama
+4. get the streamed return messages
+5. display them to the screen
+
+*/
