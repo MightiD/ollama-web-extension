@@ -7,36 +7,31 @@ type props = {
 
 type chatLlmProps = {
     model: string;
-    input: string;
+    formInput: string;
 }
 
 function LlmChat({ model }: props) {
 
-    const [input, setInput] = useState('')
     const [response, setResponse] = useState('')
 
-    async function chatLlm({ model, input }: chatLlmProps) {
-        const message = { role: 'user', content: input }
+    async function chatLlm({ model, formInput }: chatLlmProps) {
+        const message = { role: 'user', content: formInput }
         const response = await ollama.chat({ model: model, messages: [message], stream: true })
         for await (const part of response) {
             setResponse(response + (part.message.content))
-            // console.log(part.message.content)
-            // console.log(response)
+            console.log(part.message.content)
+            console.log(response)
         }
     }
 
-    function getUserInput(e: React.FormEvent<HTMLFormElement>) {
+    async function getUserInput(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         const query = new FormData(e.currentTarget)
         //input as an object form
         const formObject = Object.fromEntries(query)
         const formInput = formObject.chatInput as string
 
-        setInput(formInput)
-        console.log(typeof(formInput))
-        console.log(input)
-        chatLlm({ model, input })
-
+        chatLlm({ model, formInput })
     }
 
     return (
