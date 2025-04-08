@@ -1,35 +1,56 @@
 import { useState } from "react"
+import ollama  from "ollama/browser"
 
 type props = {
     model: string;
 }
 
+type chatLlmProps = {
+    model: string;
+    input: string;
+}
+
 function LlmChat({ model }: props) {
 
     const [input, setInput] = useState('')
-    // const [response, setResponse] = useState('')
+    const [response, setResponse] = useState('')
 
-    function getUserInput(formData: React.FormEvent<HTMLFormElement>) {
-        //gets the user input
-        formData.preventDefault();
-        const query = new FormData(formData.currentTarget)
-        const formObject = Object.fromEntries(query.entries())
-        setInput(formObject.chatInput as string)
+    async function chatLlm({ model, input }: chatLlmProps) {
+        const message = { role: 'user', content: input }
+        const response = await ollama.chat({ model: model, messages: [message], stream: true })
+        for await (const part of response) {
+            setResponse(response + (part.message.content))
+            // console.log(part.message.content)
+            // console.log(response)
+        }
+    }
+
+    function getUserInput(e: React.FormEvent<HTMLFormElement>) {
+        e.preventDefault();
+        const query = new FormData(e.currentTarget)
+        //input as an object form
+        const formObject = Object.fromEntries(query)
+        const formInput = formObject.chatInput as string
+
+        setInput(formInput)
+        console.log(typeof(formInput))
+        console.log(input)
+        chatLlm({ model, input })
 
     }
 
-//https://stackoverflow.com/questions/77276369/how-to-access-form-data-in-a-post-request-when-using-react-typescript
-
     return (
         <div className="flex justify-center items-center inset-x-0 bottom-0 h-4/5 text-white">
-            <p className="text-white">
-                E
-            </p>
+            <div className="text-white">
+                {response}
+            </div>
 
-            <form onSubmit={getUserInput}>
-                <input className="text-black" name='chatInput' type='text' id='chatInput' />
-                <button type='submit'/>
-            </form>
+            <div>
+                <form onSubmit={getUserInput}>
+                    <input className="text-black" name='chatInput' type='text' id='chatInput' />
+                    <button type='submit'/>
+                </form>
+            </div>            
         </div>
     )
 }

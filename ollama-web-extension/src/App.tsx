@@ -62,7 +62,7 @@ function App() {
       </div>
 
     <ModelList currentModel={currentModel} models={models} handleList={setCurrentModel}/>
-    <LlmChat/>
+    <LlmChat model={currentModel}/>
 
     </div>
   )
