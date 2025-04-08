@@ -1,23 +1,21 @@
-// import { useState, useEffect } from "react"
-// import ollama  from "ollama/browser"
+import { useState } from "react"
 
-// type props = {
-//     model: string;
-// }
-// {model}: props
+type props = {
+    model: string;
+}
 
+function LlmChat({ model }: props) {
 
-function LlmChat() {
-
-    // const [input, setInput] = useState('')
+    const [input, setInput] = useState('')
     // const [response, setResponse] = useState('')
 
     function getUserInput(formData: React.FormEvent<HTMLFormElement>) {
         //gets the user input
         formData.preventDefault();
         const query = new FormData(formData.currentTarget)
+        const formObject = Object.fromEntries(query.entries())
+        setInput(formObject.chatInput as string)
 
-        console.log(query)
     }
 
 //https://stackoverflow.com/questions/77276369/how-to-access-form-data-in-a-post-request-when-using-react-typescript
