@@ -16,15 +16,13 @@ function LlmChat({ model }: props) {
 
     async function chatLlm({ model, formInput }: chatLlmProps) {
         const message = { role: 'user', content: formInput }
-        const response = await ollama.chat({ model: model, messages: [message], stream: true })
-        for await (const part of response) {
-            setResponse(response + (part.message.content))
-            console.log(part.message.content)
-            console.log(response)
+        const chatRes = await ollama.chat({ model: model, messages: [message], stream: true })
+        for await (const part of chatRes) {
+            setResponse((response) => response + part.message.content)
         }
     }
 
-    async function getUserInput(e: React.FormEvent<HTMLFormElement>) {
+    function getUserInput(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         const query = new FormData(e.currentTarget)
         //input as an object form
@@ -51,15 +49,3 @@ function LlmChat({ model }: props) {
 }
 
 export default LlmChat
-
-/*
-
-HOW TO MAKE CODE WORK
-
-1. wait for user to submit the form
-2. Get user input, store in input variable using setInput()
-3. then, make an api call to ollama
-4. get the streamed return messages
-5. display them to the screen
-
-*/
